@@ -49,21 +49,10 @@ func NewPanic(text string) error {
 
 // print 打印错误信息
 func print(level string, str string) {
-	currentTime := time.Now().Format("2006-1-2 15:04:05 ")
 	// 定义 文件名、行号、方法名
-	fileName, line, functionName := "?", 0, "?"
-	pc, fileName, line, ok := runtime.Caller(2)
+	_, fileName, line, ok := runtime.Caller(2)
 	if ok {
-		functionName = runtime.FuncForPC(pc).Name()
-		// functionName = filepath.Ext(functionName)
-		// functionName = strings.TrimPrefix(functionName, ".")
+		fmt.Printf("%v | %v | %v (%v:%v)\r\n", time.Now().Format("2006-1-2 15:04:05 "), level, str, fileName, line)
 	}
-	fmt.Printf(`
-	时间：%v
-	报错：%v
-	消息：%v
-	文件：%v（%v）
-	func：%v
-	`, currentTime, level, str, fileName, line, functionName)
 
 }
